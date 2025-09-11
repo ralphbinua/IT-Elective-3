@@ -66,6 +66,24 @@ app.delete('/books/:id', (req, res) => {
   }
 });
 
+// PUT route - update a book by id
+app.put('/books/:id', (req, res) => {
+   const booksID = parseInt(req.params.id);
+   const updatedBook = req.body;
+    const index = books.findIndex(book => book.id === booksID);
+    if (index !== -1) {
+      books[index] = updatedBook;
+      res.json({
+        message: `Book with ID ${booksID} updated successfully`,
+        books: updatedBook
+      });
+    } else {
+      res.status(404).json({
+        message: `Book with ID ${booksID} not found`
+      });
+    }
+});
+
 app.listen(port, () => {
    console.log(`API is running at http://localhost:${port}`);
 });
