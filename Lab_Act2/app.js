@@ -6,6 +6,7 @@ const app = express();
 const port = 3000;
 app.use(express.json());
 
+
 const books = [
    {
      id: 1,
@@ -24,37 +25,47 @@ const books = [
    }
 ];
 
-// get route - get all books
+
+// GET route - return list of book
 app.get('/books', (req, res) => {
    res.json(books);
 });
 
-// post route - add a new book
+
+// POST route - add a book
 app.post('/books', (req, res) => {
-    const newBook = req.body; books.push(newBooks);
-    res.json({
-         message: "New book added",
-            book: newBook
-    })
+   const newBook = req.body; books.push(newBook);
+   res.json({
+      message: "Book added successfully",
+      books: newBook
+   });
 });
 
-// delete route - delete a book by id
+
+// DELETE route - delete a book by id
 app.delete('/books/:id', (req, res) => {
-   const id = parseInt(req.params.id);
-   const index = books.findIndex(book => book.id === id);
-    if (index !== -1) {
-         const deletedBook = books.splice(index, 1);
-            res.json({
-                message: "Book deleted",
-                book: deletedBook[0]
-            });
-    } else {
-         res.status(404).json({ message: "Book not found" });
-    }
+  const booksID = parseInt(req.params.id);
+
+
+  // Find the index of the book with that ID
+  const index = books.findIndex(book => book.id === booksID);
+
+
+  if (index !== -1) {
+    // Remove the book from the array
+    const deletedBook = books.splice(index, 1);
+    res.json({
+      message: `Books with ID ${booksID} deleted successfully`,
+      books: deletedBook[0]
+    });
+  } else {
+    // If no book found
+    res.status(404).json({
+      message: `Book with ID ${booksID} not found`
+    });
+  }
 });
 
-
-// check if server is running
 app.listen(port, () => {
    console.log(`API is running at http://localhost:${port}`);
 });
