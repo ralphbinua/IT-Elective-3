@@ -1,0 +1,5 @@
+npm init -y
+npm install express
+npm i nodemon -D
+npm i mongodb
+npm i mongoose
